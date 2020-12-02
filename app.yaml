@@ -1,4 +1,4 @@
-service: merkle-tree-app
+service: default
 runtime: custom
 env: flex
 vpc_access_connector:
