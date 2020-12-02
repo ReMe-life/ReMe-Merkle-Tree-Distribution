@@ -6,7 +6,7 @@ on:
             - dev
 
 env:
-    DOCKER_REGISTRY: "eu.gcr.io/remelife-wallet-test/"
+    DOCKER_REGISTRY: "eu.gcr.io/reme-wallet-test"
     DOCKER_VERSION: 0.0.${GITHUB_RUN_NUMBER}
     DOCKER_NAME: merkle-tree-${GITHUB_REF##*/}
 
