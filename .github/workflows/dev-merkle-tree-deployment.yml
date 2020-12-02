@@ -38,8 +38,8 @@ jobs:
                   -t merkle-tree .
             - name: set tags to docker images
               run: |
-                  docker tag guardian-kms ${{ env.DOCKER_REGISTRY }}${{ env.DOCKER_NAME }}:latest
-                  docker tag guardian-kms ${{ env.DOCKER_REGISTRY }}${{ env.DOCKER_NAME }}:${{ env.DOCKER_VERSION }}
+                  docker tag merkle-tree ${{ env.DOCKER_REGISTRY }}${{ env.DOCKER_NAME }}:latest
+                  docker tag merkle-tree ${{ env.DOCKER_REGISTRY }}${{ env.DOCKER_NAME }}:${{ env.DOCKER_VERSION }}
             - name: push docker images
               run: |
                   docker push ${{ env.DOCKER_REGISTRY }}${{ env.DOCKER_NAME }}:latest
