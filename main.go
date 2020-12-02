@@ -1,11 +1,9 @@
 package main
 
 import (
-	"errors"
 	"fmt"
 	"log"
 	"net/http"
-	"os"
 	"strconv"
 	"time"
 
@@ -14,12 +12,11 @@ import (
 	"github.com/LimeChain/merkletree/postgres"
 	merkleRestAPI "github.com/LimeChain/merkletree/restapi/baseapi"
 	validateAPI "github.com/LimeChain/merkletree/restapi/validateapi"
-	"github.com/ReMe-life/ReMe-Merkle-Tree-Distribution/saver"
 	env "github.com/Netflix/go-env"
+	"github.com/ReMe-life/ReMe-Merkle-Tree-Distribution/saver"
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
 	"github.com/go-chi/render"
-	"github.com/simonleung8/flags"
 )
 
 type Environment struct {
@@ -141,23 +138,6 @@ func createSaver(tree merkletree.FullMerkleTree, nodeUrl, privateKeyHex, contrac
 	fmt.Printf("Started saver on %v seconds\n", periodSeconds)
 	fmt.Printf("Node url %v\n", nodeUrl)
 	fmt.Printf("Verifier contract address %v \n", contractAddress)
-
-}
-
-func setupFlags() flags.FlagContext {
-	fc := flags.New()
-
-	fc.NewBoolFlag("envirnonment-variables", "e", "Connection string for the postgres database")
-	fc.NewStringFlag("database-connection", "db", "Connection string for the postgres database")
-	fc.NewStringFlag("node-url", "n", "url to the ethereum node to connect")
-	fc.NewStringFlag("secret", "s", "private key for the ethereum saver")
-	fc.NewStringFlag("conntract-address", "c", "Address to the verifier contract")
-	fc.NewIntFlagWithDefault("port", "ap", "port to run the API on", 8080)
-	fc.NewIntFlagWithDefault("period", "p", "period to try and save the new root", 15)
-
-	fc.Parse(os.Args...)
-
-	return fc
 }
 
 func loadPostgreTree(connStr string) merkletree.FullMerkleTree {
@@ -167,47 +147,21 @@ func loadPostgreTree(connStr string) merkletree.FullMerkleTree {
 }
 
 func main() {
-	fc := setupFlags()
 
 	var connStr, nodeURL, privateKeyHex, contractAddress string
 	var period, port int
 
-	if fc.Bool("e") {
-		var environment Environment
-		_, err := env.UnmarshalFromEnviron(&environment)
-		if err != nil {
-			log.Fatal(err)
-		}
-		connStr = fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s %s", *environment.Database.Host, environment.Database.Port, *environment.Database.User, *environment.Database.Pass, *environment.Database.DBName, *environment.Database.DBExtra)
-		nodeURL = *environment.Blockchain.NodeURL
-		privateKeyHex = *environment.Blockchain.Secret
-		contractAddress = *environment.Blockchain.ContractAddress
-		period = environment.Blockchain.SavePeriod
-		port = environment.Port
-	} else {
-		if !fc.IsSet("db") {
-			panic(errors.New("No db flag set"))
-		}
-
-		if !fc.IsSet("n") {
-			panic(errors.New("No node-url flag set"))
-		}
-
-		if !fc.IsSet("s") {
-			panic(errors.New("No secret flag set"))
-		}
-
-		if !fc.IsSet("c") {
-			panic(errors.New("No conntract-address flag set"))
-		}
-
-		connStr = fc.String("db")
-		nodeURL = fc.String("n")
-		privateKeyHex = fc.String("s")
-		contractAddress = fc.String("c")
-		period = fc.Int("p")
-		port = fc.Int("ap")
+	var environment Environment
+	_, err := env.UnmarshalFromEnviron(&environment)
+	if err != nil {
+		log.Fatal(err)
 	}
+	connStr = fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s %s", *environment.Database.Host, environment.Database.Port, *environment.Database.User, *environment.Database.Pass, *environment.Database.DBName, *environment.Database.DBExtra)
+	nodeURL = *environment.Blockchain.NodeURL
+	privateKeyHex = *environment.Blockchain.Secret
+	contractAddress = *environment.Blockchain.ContractAddress
+	period = environment.Blockchain.SavePeriod
+	port = environment.Port
 
 	tree := loadPostgreTree(connStr)
 
