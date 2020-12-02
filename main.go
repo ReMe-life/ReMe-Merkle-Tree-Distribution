@@ -156,7 +156,7 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	connStr = fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s %s", *environment.Database.Host, environment.Database.Port, *environment.Database.User, *environment.Database.Pass, *environment.Database.DBName, *environment.Database.DBExtra)
+	connStr = fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s", *environment.Database.Host, environment.Database.Port, *environment.Database.User, *environment.Database.Pass, *environment.Database.DBName)
 	nodeURL = *environment.Blockchain.NodeURL
 	privateKeyHex = *environment.Blockchain.Secret
 	contractAddress = *environment.Blockchain.ContractAddress
