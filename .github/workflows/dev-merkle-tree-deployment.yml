@@ -1,0 +1,56 @@
+name: Build & Deploy Merkle-Tree
+
+on:
+    push:
+        branches:
+            - dev
+
+env:
+    DOCKER_REGISTRY: "eu.gcr.io/merkle-tree-api-test/"
+    DOCKER_VERSION: 0.0.${GITHUB_RUN_NUMBER}
+    DOCKER_NAME: merkle-tree-${GITHUB_REF##*/}
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+
+        steps:
+            - uses: actions/checkout@v1
+            - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+              with:
+                  version: "281.0.0"
+                  project_id: ${{ secrets.PROJECT_ID }}
+                  service_account_key: ${{ secrets.APPLICATION_CREDENTIALS_DEV }}
+            - run: |
+                  gcloud auth configure-docker
+            - name: build docker image
+              run: |
+                  docker build \
+                  --build-arg DB_HOST=${{ secrets.DB_HOST }} \
+                  --build-arg DB_PORT=${{ secrets.DB_PORT }} \
+                  --build-arg DB_USER=${{ secrets.DB_USER }} \
+                  --build-arg DB_PASS=${{ secrets.DB_PASS }} \
+                  --build-arg DB_NAME=${{ secrets.DB_NAME }} \
+                  --build-arg NODE_URL=${{ secrets.NODE_URL }} \
+                  --build-arg SECRET_KEY=${{ secrets.SECRET_KEY }} \
+                  --build-arg CONTRACT_ADDRESS=${{ secrets.CONTRACT_ADDRESS }} \
+                  --build-arg SAVE_PERIOD=${{ secrets.SAVE_PERIOD }} \
+                  -t merkle-tree .
+            - name: set tags to docker images
+              run: |
+                  docker tag guardian-kms ${{ env.DOCKER_REGISTRY }}${{ env.DOCKER_NAME }}:latest
+                  docker tag guardian-kms ${{ env.DOCKER_REGISTRY }}${{ env.DOCKER_NAME }}:${{ env.DOCKER_VERSION }}
+            - name: push docker images
+              run: |
+                  docker push ${{ env.DOCKER_REGISTRY }}${{ env.DOCKER_NAME }}:latest
+                  docker push ${{ env.DOCKER_REGISTRY }}${{ env.DOCKER_NAME }}:${{ env.DOCKER_VERSION }}
+            - name: logout docker
+              run: docker logout
+
+            - uses: actions-hub/gcloud@master
+              name: deploy service
+              env:
+                  PROJECT_ID: ${{ secrets.PROJECT_ID }}
+                  APPLICATION_CREDENTIALS: ${{secrets.APPLICATION_CREDENTIALS_DEV}}
+              with:
+                  args: app deploy --quiet --image-url=${{ env.DOCKER_REGISTRY }}${{ env.DOCKER_NAME }}:latest --stop-previous-version
