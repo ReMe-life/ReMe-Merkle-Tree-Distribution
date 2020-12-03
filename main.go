@@ -103,11 +103,12 @@ func createSaver(tree merkletree.FullMerkleTree, nodeUrl, privateKeyHex, contrac
 			tree.Recalculate()
 			savedRoot, err := treeSaver.FetchRoot()
 			if err != nil {
-				fmt.Println("ERR: Could not fetch root")
+				fmt.Println("ERR: Could not fetch the tree root")
 				fmt.Println(err.Error())
 				time.Sleep(timeout)
 				continue
 			}
+			fmt.Println("savedRoot", savedRoot)
 
 			if savedRoot == tree.Root() {
 				fmt.Printf("Same root (%v) found in the chain. Skipping this iteration\n", savedRoot)
