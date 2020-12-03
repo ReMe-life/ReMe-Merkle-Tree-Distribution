@@ -75,7 +75,7 @@ func createAndStartAPI(tree merkletree.ExternalMerkleTree, port int) {
 		treeRouter = merkleRestAPI.MerkleTreeStatus(treeRouter, tree)
 		treeRouter = merkleRestAPI.MerkleTreeInsert(treeRouter, tree)
 		treeRouter = merkleRestAPI.MerkleTreeHashes(treeRouter, tree)
-		treeRouter = merkleRestAPI.MerkleTreeRawInsert(treeRouter, tree)
+		// treeRouter = merkleRestAPI.MerkleTreeRawInsert(treeRouter, tree)
 		treeRouter = validateAPI.MerkleTreeValidate(treeRouter, tree)
 
 		treeRouter.Get("/saved", getSaved(tree))
@@ -103,7 +103,7 @@ func createSaver(tree merkletree.FullMerkleTree, nodeUrl, privateKeyHex, contrac
 			tree.Recalculate()
 			savedRoot, err := treeSaver.FetchRoot()
 			if err != nil {
-				fmt.Println("ERR: Could not save the tree root")
+				fmt.Println("ERR: Could not fetch root")
 				fmt.Println(err.Error())
 				time.Sleep(timeout)
 				continue
