@@ -75,7 +75,7 @@ func createAndStartAPI(tree merkletree.ExternalMerkleTree, port int) {
 		treeRouter = merkleRestAPI.MerkleTreeStatus(treeRouter, tree)
 		treeRouter = merkleRestAPI.MerkleTreeInsert(treeRouter, tree)
 		treeRouter = merkleRestAPI.MerkleTreeHashes(treeRouter, tree)
-		treeRouter = merkleRestAPI.MerkleTreeRawInsert(treeRouter, tree)
+		// treeRouter = merkleRestAPI.MerkleTreeRawInsert(treeRouter, tree)
 		treeRouter = validateAPI.MerkleTreeValidate(treeRouter, tree)
 
 		treeRouter.Get("/saved", getSaved(tree))
@@ -139,7 +139,6 @@ func createSaver(tree merkletree.FullMerkleTree, nodeUrl, privateKeyHex, contrac
 	fmt.Printf("Started saver on %v seconds\n", periodSeconds)
 	fmt.Printf("Node url %v\n", nodeUrl)
 	fmt.Printf("Verifier contract address %v \n", contractAddress)
-
 }
 
 func loadPostgreTree(connStr string) merkletree.FullMerkleTree {
@@ -158,7 +157,7 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	connStr = fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s %s", *environment.Database.Host, environment.Database.Port, *environment.Database.User, *environment.Database.Pass, *environment.Database.DBName, *environment.Database.DBExtra)
+	connStr = fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s", *environment.Database.Host, environment.Database.Port, *environment.Database.User, *environment.Database.Pass, *environment.Database.DBName)
 	nodeURL = *environment.Blockchain.NodeURL
 	privateKeyHex = *environment.Blockchain.Secret
 	contractAddress = *environment.Blockchain.ContractAddress
