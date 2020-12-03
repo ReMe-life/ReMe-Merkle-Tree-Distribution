@@ -27,7 +27,7 @@ var (
 )
 
 // RootValidatorABI is the input ABI used to generate the binding from.
-const RootValidatorABI = "[{\"constant\":false,\"inputs\":[],\"name\":\"renounceOwnership\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"isOwner\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"limeRoot\",\"outputs\":[{\"name\":\"\",\"type\":\"bytes32\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"transferOwnership\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"name\":\"previousOwner\",\"type\":\"address\"},{\"indexed\":true,\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"OwnershipTransferred\",\"type\":\"event\"},{\"constant\":false,\"inputs\":[{\"name\":\"merkleRoot\",\"type\":\"bytes32\"}],\"name\":\"setRoot\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"data\",\"type\":\"bytes\"},{\"name\":\"nodes\",\"type\":\"bytes32[]\"},{\"name\":\"leafIndex\",\"type\":\"uint256\"}],\"name\":\"verifyDataInState\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"}]"
+const RootValidatorABI = "[{\"constant\":false,\"inputs\":[],\"name\":\"renounceOwnership\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"isOwner\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"rootHash\",\"outputs\":[{\"name\":\"\",\"type\":\"bytes32\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"transferOwnership\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"name\":\"previousOwner\",\"type\":\"address\"},{\"indexed\":true,\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"OwnershipTransferred\",\"type\":\"event\"},{\"constant\":false,\"inputs\":[{\"name\":\"merkleRoot\",\"type\":\"bytes32\"}],\"name\":\"setRoot\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"data\",\"type\":\"bytes\"},{\"name\":\"nodes\",\"type\":\"bytes32[]\"},{\"name\":\"leafIndex\",\"type\":\"uint256\"}],\"name\":\"verifyDataInState\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"}]"
 
 // RootValidator is an auto generated Go binding around an Ethereum contract.
 type RootValidator struct {
@@ -202,12 +202,12 @@ func (_RootValidator *RootValidatorCallerSession) IsOwner() (bool, error) {
 	return _RootValidator.Contract.IsOwner(&_RootValidator.CallOpts)
 }
 
-// LimeRoot is a free data retrieval call binding the contract method 0xb3ca488f.
+// RootHash is a free data retrieval call binding the contract method 0xb3ca488f.
 //
-// Solidity: function limeRoot() view returns(bytes32)
-func (_RootValidator *RootValidatorCaller) LimeRoot(opts *bind.CallOpts) ([32]byte, error) {
+// Solidity: function rootHash() view returns(bytes32)
+func (_RootValidator *RootValidatorCaller) RootHash(opts *bind.CallOpts) ([32]byte, error) {
 	var out []interface{}
-	err := _RootValidator.contract.Call(opts, &out, "limeRoot")
+	err := _RootValidator.contract.Call(opts, &out, "rootHash")
 
 	if err != nil {
 		return *new([32]byte), err
@@ -219,18 +219,18 @@ func (_RootValidator *RootValidatorCaller) LimeRoot(opts *bind.CallOpts) ([32]by
 
 }
 
-// LimeRoot is a free data retrieval call binding the contract method 0xb3ca488f.
+// RootHash is a free data retrieval call binding the contract method 0xb3ca488f.
 //
-// Solidity: function limeRoot() view returns(bytes32)
-func (_RootValidator *RootValidatorSession) LimeRoot() ([32]byte, error) {
-	return _RootValidator.Contract.LimeRoot(&_RootValidator.CallOpts)
+// Solidity: function rootHash() view returns(bytes32)
+func (_RootValidator *RootValidatorSession) RootHash() ([32]byte, error) {
+	return _RootValidator.Contract.RootHash(&_RootValidator.CallOpts)
 }
 
-// LimeRoot is a free data retrieval call binding the contract method 0xb3ca488f.
+// RootHash is a free data retrieval call binding the contract method 0xb3ca488f.
 //
-// Solidity: function limeRoot() view returns(bytes32)
-func (_RootValidator *RootValidatorCallerSession) LimeRoot() ([32]byte, error) {
-	return _RootValidator.Contract.LimeRoot(&_RootValidator.CallOpts)
+// Solidity: function rootHash() view returns(bytes32)
+func (_RootValidator *RootValidatorCallerSession) RootHash() ([32]byte, error) {
+	return _RootValidator.Contract.RootHash(&_RootValidator.CallOpts)
 }
 
 // Owner is a free data retrieval call binding the contract method 0x8da5cb5b.

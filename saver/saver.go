@@ -87,7 +87,7 @@ func (saver *EthereumRootSaver) FetchRoot() (string, error) {
 		return "", err
 	}
 
-	result, err := contract.LimeRoot(nil)
+	result, err := contract.RootHash(nil)
 	if err != nil {
 		return "", err
 	}
