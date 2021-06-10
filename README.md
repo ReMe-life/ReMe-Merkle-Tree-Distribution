@@ -18,6 +18,6 @@ API_PORT - Api port```
 
 ## Build & Deploy
 
-docker build -t verifiable-merkle-tree:1.0 .
-deploy on any preferred cloud service platform with sql database
+* docker build -t verifiable-merkle-tree:1.0 .
+* deploy on any preferred cloud service platform with sql database
 `!IMPORTANT! The sql server should be configured to "Single zone"`
